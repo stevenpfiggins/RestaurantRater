@@ -12,7 +12,7 @@ namespace RestaurantRater_MVC.Controllers
     public class RestaurantController : Controller
     {
         private RestaurantDBContext db = new RestaurantDBContext();
-        // GET: Restaurant
+        // GET: Restaurants
         public ActionResult Index()
         {
             return View(db.Restaurants.ToList());
@@ -22,7 +22,7 @@ namespace RestaurantRater_MVC.Controllers
         {
             return View();
         }
-        //POST: Restaurant/Create
+        //POST: Restaurants/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "RestaurantID,Name,Address,Description,Rating")] Restaurant restaurant)
@@ -36,7 +36,7 @@ namespace RestaurantRater_MVC.Controllers
             return View(restaurant);
         }
 
-        //GET: Restaurant/Delete/5
+        //GET: Restaurants/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -51,7 +51,7 @@ namespace RestaurantRater_MVC.Controllers
             return View(restaurant);
         }
 
-        //POST: Restaurant/Delete/5
+        //POST: Restaurants/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -71,7 +71,7 @@ namespace RestaurantRater_MVC.Controllers
             base.Dispose(disposing);
         }
 
-        //GET: Restaurant/Edit/5
+        //GET: Restaurants/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -96,6 +96,21 @@ namespace RestaurantRater_MVC.Controllers
                 db.Entry(restaurant).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            return View(restaurant);
+        }
+
+        //GET: Restaurants/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Restaurant restaurant = db.Restaurants.Find(id);
+            if (restaurant == null)
+            {
+                return HttpNotFound();
             }
             return View(restaurant);
         }
